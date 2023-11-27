@@ -1,11 +1,51 @@
-name: CI
-on: push
+name: Continuous Integration
+
+# This action works with pull requests and pushes
+# Thanks to Crey D for his prettier CI example
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write **/*.{js,md}
+
+# This section is from Github marketplace contributor sibiraj-s:  https://github.com/sibiraj-s/action-eslint
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci # or yarn install
+      - uses: sibiraj-s/action-eslint@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # optional
+          eslint-args: '--ignore-path=.gitignore --quiet'
+          extensions: 'js,jsx,ts,tsx'
+          annotations: true
+
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       run: yarn
-    - name: Run ESLint
+    - name: for future use 
       run: eslint . --ext .js,.jsx,.ts,.tsx
