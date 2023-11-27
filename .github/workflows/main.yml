@@ -7,7 +7,11 @@ on:
   push:
     branches:
       - main
-
+      
+permissions:
+  contents: read
+  pages: write          # Adding read and write permissions for all jobs in this workflow. 
+  
 jobs:
   prettier:
     runs-on: ubuntu-latest
