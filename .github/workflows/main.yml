@@ -9,8 +9,7 @@ on:
       - main
       
 permissions:
-  contents: read
-  pages: write          # Adding read and write permissions for all jobs in this workflow. 
+  contents: write     # Adding this for prettier job which updates repository in unpretty cases
   
 jobs:
   prettier:
