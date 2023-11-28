@@ -39,6 +39,7 @@ jobs:
       - run: npm install # or yarn install SMS: using npm install rather than npm ci  
       - uses: sibiraj-s/action-eslint@v3
         with:
+          all-files: true
           token: ${{ secrets.GITHUB_TOKEN }} # optional
           eslint-args: '--ignore-path=.gitignore' # removed --quiet option for better debugging 
           extensions: 'js,jsx,ts,tsx'
