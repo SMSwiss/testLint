@@ -45,11 +45,13 @@ jobs:
           extensions: 'js,jsx,ts,tsx'
           annotations: true
 
-  build:
+  test:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
-    - name: for future use 
-      run: eslint . --ext .js,.jsx,.ts,.tsx
+    steps: 
+      - uses: actions/checkout@v4
+        uses: actions/setup-node@v3
+          with:
+            node-version: "<16.0.0"
+      - run: npm install
+      - run: npm run build --if-present
+      - run: CI=true npm run test
